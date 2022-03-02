@@ -24,7 +24,7 @@ Vue.component("vocabulary-adding", {
     addNewWord: function (eng, trans) {
       this.regExp = new RegExp(eng,"i");
       this.found = this.checkWord(eng);
-      if(this.isExists){
+      if(this.isExists){ //checking if word exist in the vocabulary
         console.log('this word exists');
         let dateNow = new Date(this.found.date)
       //  console.log(this.found)
