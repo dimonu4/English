@@ -7,7 +7,6 @@ Vue.component("vocabulary-adding", {
       lastId:'',
       quantity:'',
       regExp:'',
-      isExists: true,
       foundId:'',
       currentuser: []
     };
@@ -24,7 +23,7 @@ Vue.component("vocabulary-adding", {
     addNewWord: function (eng, trans) {
       this.regExp = new RegExp(eng,"i");
       this.found = this.checkWord(eng);
-      if(this.isExists){ //checking if word exist in the vocabulary
+      if(this.found ){ //checking if word exist in the vocabulary
         console.log('this word exists');
         let dateNow = new Date(this.found.date)
       //  console.log(this.found)
@@ -56,21 +55,11 @@ Vue.component("vocabulary-adding", {
       })
       }
     },
+    // checking if the word in english is exsist
     checkWord(eng){
-      let found;
-      let check= 0;
-      this.vocabulary.forEach(el=>{
-        if(this.regExp.test(el.english) || eng.length == el.length){
-          check++;
-          found= el;
-        }
+        return this.vocabulary.find(el => {
+          return this.regExp.test( el.english )
         })
-        if(check>0){
-          this.isExists=true;
-        }else{
-          this.isExists=false;
-        }
-        return found;
     },
     clearFields(){
       this.inputEnglishWord='';
