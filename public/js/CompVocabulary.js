@@ -61,6 +61,7 @@ Vue.component("vocabulary-adding", {
           return this.regExp.test( el.english )
         })
     },
+    // clearing input fields
     clearFields(){
       this.inputEnglishWord='';
       this.inputTranslateWord='';
