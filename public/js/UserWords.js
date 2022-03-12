@@ -10,7 +10,7 @@ Vue.component('user-words', {
       <div>
       <h2>Words for learning: {{currentuser.learning.length}}</h2>
       <p v-for='word in wordsForLearning' :key='word.id'>
-      {{word.id}}
+      {{word.english}}
       </p>
       <h2>Words for repeating: {{currentuser.repeating.length}}</h2>
       <p>
@@ -29,10 +29,11 @@ Vue.component('user-words', {
         this.$parent.getJson('api/userswords')
         .then( result => {
             this.currentuser = result[0];
+            for(let i = 0; i < this.currentuser.learning.length; i++){
+                this.wordsForLearning[i] = this.vocabulary.find(el => el.id === this.currentuser.learning[i].id)
+            }
         })
-
-        for(let i = 0; i < this.currentuser.learning.length; i++){
-            this.wordsForLearning[i] = this.vocabulary[this.currentuser.learning[i]];
-        }
+        
+        
     }
 })
