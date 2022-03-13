@@ -9,6 +9,7 @@ Vue.component('user-words', {
     template: `
       <div>
       <h2>Words for learning: {{currentuser.learning.length}}</h2>
+      <button>Train</button>
       <p v-for='word in wordsForLearning' :key='word.id'>
       {{word.english}}
       </p>
