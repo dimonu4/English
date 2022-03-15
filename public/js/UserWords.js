@@ -11,7 +11,7 @@ Vue.component('user-words', {
       <div>
       <h2>Words for learning: {{currentuser.learning.length}}</h2>
       <button v-on:click="showTraining = !showTraining">Train</button>
-      <training v-if="showTraining"></training>
+      <training v-if="showTraining" v-bind:words='wordsForLearning'></training>
       <p v-for='word in wordsForLearning' :key='word.id'>
       {{word.english}}
       </p>
@@ -23,7 +23,7 @@ Vue.component('user-words', {
       </p>
       </div>
     `,
-    mounted(){
+    beforeCreate(){
         this.$parent.getJson('/api/vocabulary')
         .then( result =>{
             this.vocabulary = result;
