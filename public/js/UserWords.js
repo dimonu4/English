@@ -11,7 +11,7 @@ Vue.component('user-words', {
       <div>
       <h2>Words for learning: {{currentuser.learning.length}}</h2>
       <button v-on:click="showTraining = !showTraining">Train</button>
-      <training v-if="showTraining" v-bind:words='wordsForLearning'></training>
+      <training v-if="showTraining" v-bind:words='wordsForLearning' v-bind:vocabulary='vocabulary'></training>
       <p v-for='word in wordsForLearning' :key='word.id'>
       {{word.english}}
       </p>
