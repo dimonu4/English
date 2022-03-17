@@ -15,17 +15,34 @@ Vue.component('training',{
     
     <p v-for='word in words' v-bind:key='word.id'>
     <word-translation v-if='wordTranslateOn' v-bind:word='word' v-bind:vocabulary='vocabulary'
-    v-bind:randomThreeWords='createRandomThreeWords(word.id)'
+    v-bind:randomThreeWords='createRandomThreeWords(word.id, word)'
     ></word-translation>
     {{word.id}}</p>
     </div>
     `,
     methods:{
-        createRandomThreeWords(exceptionId){
+        createRandomThreeWords(exceptionId, translate){
+           
             let array = [];
+            let readyArray = [];
             for( let i = 0; i<3; i++){
                array.push( this.giveMeTheWord(exceptionId) );
             }
+            array.push(translate);
+            console.log(array)
+            for(let i = 0; i<4; i++){
+            readyArray = this.mixArray(array);
+            }
+            return readyArray
+        },
+
+        mixArray(array){
+            let number1 = this.randomNumber(0,3);
+            let number2 = this.randomNumber(0,3);
+            let temp1 = array[number1];
+            let temp2 = array[number2];
+            array[number1] = temp2;
+            array[number2] = temp1;
             return array
         },
 
