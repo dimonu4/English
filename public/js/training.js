@@ -25,8 +25,10 @@ Vue.component('training',{
            
             let array = [];
             let readyArray = [];
-            for( let i = 0; i<3; i++){
-               array.push( this.giveMeTheWord(exceptionId) );
+            while( array.length < 3 ){
+                let word = this.giveMeTheWord(exceptionId);
+                if( array.includes(word)) continue
+               array.push( word );
             }
             array.push(translate);
             console.log(array)
@@ -47,11 +49,12 @@ Vue.component('training',{
         },
 
         giveMeTheWord(exceptionId){
-            let number = this.randomNumber(1, this.vocabulary.length);
+            let number;
+            do { number = this.randomNumber(0, this.vocabulary.length - 1);}
+            while(number + 1 === exceptionId)
+            console.log(number)
             let findWord = this.vocabulary[number];
-            if(findWord.id !== exceptionId) {
-                return findWord
-            } else this.giveMeTheWord(exceptionId)
+            return findWord
         },
 
         randomNumber(from, to) {
