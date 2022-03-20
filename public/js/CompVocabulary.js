@@ -45,7 +45,7 @@ Vue.component("vocabulary-adding", {
       })
 
       // push word id into users.json/learning
-      this.$parent.putJson( '/api/userswords/learning', {id: this.lastId + 1, date: Date.now()})
+      this.$parent.postJson( '/api/userswords/learning', {id: this.lastId + 1, date: Date.now()})
       .then( data => {
         if ( data.result === 1) {
           this.currentuser[0].learning.push({id: this.lastId + 1, date: Date.now()})

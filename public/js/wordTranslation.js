@@ -1,14 +1,24 @@
 Vue.component('word-translation',{
     props:{
         word:{},
-        randomThreeWords:[],
+        wordsTranslate:[],
     },
     template:`
         <div>
             <p>Please translate: {{word.english}}</p>
-            <ul v-for='translate in randomThreeWords' :key='translate.id'>
-            <li>{{translate.translate}}</li>
+            <ul v-for='translate in wordsTranslate' :key='translate.id'>
+            <li v-on:click='handleAnswer(translate.id)'>{{translate.translate}}</li>
             </ul>
+            <button>Cancel</button>
+            <button>Delay</button>        
         </div>
     `,
+    methods:{
+        handleAnswer(id){
+            this.$emit('answerWord-translate', id);
+        },
+        handleCancel(){
+            this.$emit('Cancel-from-word-translate');
+        }
+    }
 })

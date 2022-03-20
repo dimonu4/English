@@ -30,7 +30,11 @@ const app = new Vue({
       },
       body: JSON.stringify(data)
     })
-    }
+    .then(result => result.json())
+    .catch(err => {
+      console.log(err)
+    })
+    },
   },
 
 });

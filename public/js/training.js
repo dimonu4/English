@@ -2,6 +2,7 @@ Vue.component('training',{
     data(){
         return{
             wordTranslateOn:false,
+            currentWordTranslate:0,
         }
     },
     props:{
@@ -12,17 +13,42 @@ Vue.component('training',{
     <div>
     <p>Training words there</p>
     <button v-on:click='wordTranslateOn=!wordTranslateOn'>word-translation</button>
-    
-    <p v-for='word in words' v-bind:key='word.id'>
-    <word-translation v-if='wordTranslateOn' v-bind:word='word' v-bind:vocabulary='vocabulary'
-    v-bind:randomThreeWords='createRandomThreeWords(word.id, word)'
-    ></word-translation>
-    {{word.id}}</p>
+    <word-translation 
+     v-if='wordTranslateOn'
+     v-bind:word='words[currentWordTranslate]'
+     v-bind:wordsTranslate='getWordsTranslate(words[currentWordTranslate].id, words[currentWordTranslate])'
+     v-on:answerWord-translate='(id) => handleAnswer(id)'
+     ></word-translation>
     </div>
     `,
+    // computed:{
+
+    // },
     methods:{
-        createRandomThreeWords(exceptionId, translate){
-           
+        // feedWordTranslate(){
+        //     return 
+        // },
+
+        handleAnswer(id){
+            if( id === this.words[this.currentWordTranslate].id){
+                console.log('yes')
+                console.log(id)
+                this.$parent.$parent.putJson('/api/userswords/learning', {id:id})
+                .then(data => {     
+                    console.log('is it?', data)
+                    if(data.result === 1){
+                        this.currentWordTranslate++
+                        console.log('it should')
+                    } else if (data.result === 0){
+                        console.log('something wrong')
+                    }
+                })
+                
+            } else {
+                console.log('no')
+            }
+        },
+        getWordsTranslate(exceptionId, translate){
             let array = [];
             let readyArray = [];
             while( array.length < 3 ){
@@ -60,5 +86,7 @@ Vue.component('training',{
         randomNumber(from, to) {
             return Math.floor( Math.random() * ( to - from + 1 ) + from );
         }
+    },
+    mounted(){
     }
 })
