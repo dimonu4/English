@@ -3,23 +3,27 @@ Vue.component('user-words', {
         return{
             showTraining: false,
             vocabulary: [],
-            currentuser: [],
+            currentUser: [],
             wordsForLearning: [],
             quantityLearnWords:'',
         }
     },
     template: `
       <div>
-      <h2>Words for learning: {{this.quantityLearnWords}}</h2>
+      <h2>Words for learning: {{quantityLearnWords}}</h2>
       <button v-on:click="showTraining = !showTraining">Train</button>
-      <training v-if="showTraining" v-bind:words='wordsForLearning' v-bind:vocabulary='vocabulary'></training>
+      <training v-if="showTraining"
+       v-bind:words='wordsForLearning'
+       v-bind:vocabulary='vocabulary'
+       v-bind:currentUser='currentUser'
+       ></training>
       <p v-for='word in wordsForLearning' :key='word.id'>
       {{word.english}}
       </p>
-      <h2>Words for repeating: {{currentuser.repeating.length}}</h2>
+      <h2>Words for repeating: {{currentUser.repeating.length}}</h2>
       <p>
       </p>
-      <h2>Words has been learnt: {{currentuser.learnt.length}}</h2>
+      <h2>Words has been learnt: {{currentUser.learnt.length}}</h2>
       <p>
       </p>
       </div>
@@ -38,9 +42,9 @@ Vue.component('user-words', {
 
         this.$parent.getJson('api/userswords')
         .then( result => {
-            this.currentuser = result[0];
-            for(let i = 0; i < this.currentuser.learning.length; i++){
-                this.wordsForLearning[i] = this.vocabulary.find(el => el.id === this.currentuser.learning[i].id)
+            this.currentUser = result[0];
+            for(let i = 0; i < this.currentUser.learning.length; i++){
+                this.wordsForLearning[i] = this.vocabulary.find(el => el.id === this.currentUser.learning[i].id)
             }
             this.quantityLearnWords = this.wordsForLearning.length;
         })

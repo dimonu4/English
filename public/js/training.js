@@ -3,14 +3,21 @@ Vue.component('training',{
         return{
             wordTranslateOn:false,
             currentWordTranslate:0,
+            computedArray:[]
         }
     },
     props:{
         words:[],
         vocabulary:[],
+        currentUser:[],
     },
     template:`
     <div>
+    <p>computed array: </p>
+    <ul v-for='element in computedArray' key:element.id>
+    <li>{{element.id}}</li>
+    </ul>
+    <button v-on:click='testHandle()'>Test</button>
     <p>Training words there</p>
     <button v-on:click='wordTranslateOn=!wordTranslateOn'>word-translation</button>
     <word-translation 
@@ -21,13 +28,33 @@ Vue.component('training',{
      ></word-translation>
     </div>
     `,
-    // computed:{
-
-    // },
+    computed:{
+        // computedArray(){
+        //     // let arrayId =[]
+        //     return  this.currentUser.learning.filter(el => el.WT === undefined || el.WT === false )
+        //     // for(let word of preciseWords){
+        //     //     arrayId.push(word.id)
+        //     // }
+        //     // return this.words.filter(el => arrayId.includes(el.id))
+            
+        // }
+    },
     methods:{
         // feedWordTranslate(){
         //     return 
         // },
+
+        // computedArray(){
+        //     console.log('computedArray was touched')
+        //     return this.currentUser.learning.filter(el => el.WT === undefined || el.WT === false )      
+        // },
+
+        testHandle(){
+            console.log('test started')
+            this.currentUser.learning[3].WT=true
+            console.log(this.currentUser.learning[3])
+            this.computedArray = this.currentUser.learning.filter(el => el.WT === undefined || el.WT === false )
+        },
 
         handleAnswer(id){
             if( id === this.words[this.currentWordTranslate].id){
@@ -87,6 +114,15 @@ Vue.component('training',{
             return Math.floor( Math.random() * ( to - from + 1 ) + from );
         }
     },
+    
+    updated(){
+        // this.computedArray = this.currentUser.learning.filter(el => el.WT === undefined || el.WT === false )
+        //  console.log('updated hook worked')      
+    }, 
     mounted(){
+        console.log('mounted hook')
+        
+        this.computedArray = this.currentUser.learning.filter(el => el.WT === undefined || el.WT === false ) 
+        console.log('computedArray was touched')
     }
 })
