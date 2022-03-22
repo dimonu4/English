@@ -43,8 +43,10 @@ Vue.component('user-words', {
         this.$parent.getJson('api/userswords')
         .then( result => {
             this.currentUser = result[0];
-            for(let i = 0; i < this.currentUser.learning.length; i++){
-                this.wordsForLearning[i] = this.vocabulary.find(el => el.id === this.currentUser.learning[i].id)
+            this.filteredResult = this.currentUser.learning.filter(el => el.WT !== true)
+            console.log(this.filteredResult)
+            for(let i = 0; i < this.filteredResult.length; i++){
+                this.wordsForLearning[i] = this.vocabulary.find(el => el.id === this.filteredResult[i].id)
             }
             this.quantityLearnWords = this.wordsForLearning.length;
         })

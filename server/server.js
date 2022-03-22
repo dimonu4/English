@@ -59,7 +59,7 @@ app.get("/api/userswords/", (req, res) => {
   })
 })
 
-app.put('/api/userswords/learning', (req, res) => {
+app.put('/api/userswords/learning/yes', (req, res) => {
   fs.readFile('./server/db/users.json', 'utf-8', (err, data) => {
     if(err) {
       console.log(err)
@@ -75,6 +75,22 @@ app.put('/api/userswords/learning', (req, res) => {
         if(err) res.send({result: 0})
         else res.send({result: 1})
       })
+    }
+  })
+})
+
+app.post('api/userswords/learning/no', (req, res) =>{
+  fs.readFile('./server/db/users.json', 'utf-8', (err, data) =>{
+    if(err){
+      console.log(err);
+    } else {
+      let currentUserId = 0; // Later it will be got from local storage
+      let learning = JSON.parse(data);
+      let matchedId = req.body;
+      let currentWord = learning[currentUserId].repeating.find(el => el.id === matchedId)
+      if(currentWord){
+        let index = learning[currentUserId].repeating.indexOf(currentWord);
+      }
     }
   })
 })

@@ -3,7 +3,7 @@ Vue.component('training',{
         return{
             wordTranslateOn:false,
             currentWordTranslate:0,
-            computedArray:[]
+            
         }
     },
     props:{
@@ -13,11 +13,6 @@ Vue.component('training',{
     },
     template:`
     <div>
-    <p>computed array: </p>
-    <ul v-for='element in computedArray' key:element.id>
-    <li>{{element.id}}</li>
-    </ul>
-    <button v-on:click='testHandle()'>Test</button>
     <p>Training words there</p>
     <button v-on:click='wordTranslateOn=!wordTranslateOn'>word-translation</button>
     <word-translation 
@@ -29,25 +24,9 @@ Vue.component('training',{
     </div>
     `,
     computed:{
-        // computedArray(){
-        //     // let arrayId =[]
-        //     return  this.currentUser.learning.filter(el => el.WT === undefined || el.WT === false )
-        //     // for(let word of preciseWords){
-        //     //     arrayId.push(word.id)
-        //     // }
-        //     // return this.words.filter(el => arrayId.includes(el.id))
-            
-        // }
+     
     },
     methods:{
-        // feedWordTranslate(){
-        //     return 
-        // },
-
-        // computedArray(){
-        //     console.log('computedArray was touched')
-        //     return this.currentUser.learning.filter(el => el.WT === undefined || el.WT === false )      
-        // },
 
         testHandle(){
             console.log('test started')
@@ -59,13 +38,10 @@ Vue.component('training',{
         handleAnswer(id){
             if( id === this.words[this.currentWordTranslate].id){
                 console.log('yes')
-                console.log(id)
-                this.$parent.$parent.putJson('/api/userswords/learning', {id:id})
+                this.$parent.$parent.putJson('/api/userswords/learning/yes', {id:id})
                 .then(data => {     
-                    console.log('is it?', data)
                     if(data.result === 1){
                         this.currentWordTranslate++
-                        console.log('it should')
                     } else if (data.result === 0){
                         console.log('something wrong')
                     }
@@ -73,6 +49,14 @@ Vue.component('training',{
                 
             } else {
                 console.log('no')
+                this.$parent.$parent.putJson('/api/userswords/learning/no', {id:id})
+                .then(data => {
+                    if(data.result === 1){
+                        console.log('The word has been added for repeating')
+                    } else if( data.result === 0){
+                        console.log('something wrong')
+                    }
+                })
             }
         },
         getWordsTranslate(exceptionId, translate){
