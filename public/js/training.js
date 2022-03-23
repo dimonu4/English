@@ -49,7 +49,7 @@ Vue.component('training',{
                 
             } else {
                 console.log('no')
-                this.$parent.$parent.putJson('/api/userswords/learning/no', {id:id})
+                this.$parent.$parent.postJson('/api/userswords/learning/no', {id:id})
                 .then(data => {
                     if(data.result === 1){
                         console.log('The word has been added for repeating')
