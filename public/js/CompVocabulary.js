@@ -48,7 +48,7 @@ Vue.component("vocabulary-adding", {
       this.$parent.postJson( '/api/userswords/learning', {id: this.lastId + 1, date: Date.now()})
       .then( data => {
         if ( data.result === 1) {
-          this.currentuser[0].learning.push({id: this.lastId + 1, date: Date.now()})
+          this.currentuser.learning.push({id: this.lastId + 1, date: Date.now()})
         } else if( data.result === 0 ){
           console.log( 'error' );
         }

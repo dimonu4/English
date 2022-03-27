@@ -6,6 +6,7 @@ Vue.component('user-words', {
             currentUser: [],
             wordsForLearning: [],
             quantityLearnWords:'',
+            wordsWTP:[],
         }
     },
     template: `
@@ -16,6 +17,7 @@ Vue.component('user-words', {
        v-bind:words='wordsForLearning'
        v-bind:vocabulary='vocabulary'
        v-bind:currentUser='currentUser'
+       v-bind:wordsWTP='wordsWTP'
        ></training>
       <p v-for='word in wordsForLearning' :key='word.id'>
       {{word.english}}
@@ -44,10 +46,17 @@ Vue.component('user-words', {
         .then( result => {
             this.currentUser = result[0];
             this.filteredResult = this.currentUser.learning.filter(el => el.WT !== true)
-            console.log(this.filteredResult)
+            this.filteredWordType = this.currentUser.learning.filter(el => el.WTP !== true && el.WT ===true)
+            console.log(this.filteredWordType)
+            // For word translate
             for(let i = 0; i < this.filteredResult.length; i++){
                 this.wordsForLearning[i] = this.vocabulary.find(el => el.id === this.filteredResult[i].id)
             }
+            // For word type translate(WTP)
+            for(let i = 0; i < this.filteredWordType.length; i++){
+                this.wordsWTP[i] = this.vocabulary.find(el => el.id === this.filteredWordType[i].id)
+            }
+            console.log(this.wordsWTP)
             this.quantityLearnWords = this.wordsForLearning.length;
         })
     }

@@ -9,7 +9,7 @@ Vue.component('word-translation',{
             <ul v-for='translate in wordsTranslate' :key='translate.id'>
             <li v-on:click='handleAnswer(translate.id)'>{{translate.translate}}</li>
             </ul>
-            <button>Cancel</button>
+            <button v-on:click='handleCancel()'>Cancel</button>
             <button>Delay</button>        
         </div>
     `,

@@ -10,31 +10,28 @@ Vue.component('training',{
         words:[],
         vocabulary:[],
         currentUser:[],
+        wordsWTP:[],
     },
     template:`
     <div>
-    <p>Training words there</p>
+    <p>Training words there: </p>
     <button v-on:click='wordTranslateOn=!wordTranslateOn'>word-translation</button>
     <word-translation 
      v-if='wordTranslateOn'
      v-bind:word='words[currentWordTranslate]'
      v-bind:wordsTranslate='getWordsTranslate(words[currentWordTranslate].id, words[currentWordTranslate])'
      v-on:answerWord-translate='(id) => handleAnswer(id)'
+     v-on:Cancel-from-word-translate='wordTranslateOn = false'
      ></word-translation>
+     <word-type-translate
+     v-bind:wordsWTP='wordsWTP'
+     ></word-type-translate>
     </div>
     `,
     computed:{
      
     },
     methods:{
-
-        testHandle(){
-            console.log('test started')
-            this.currentUser.learning[3].WT=true
-            console.log(this.currentUser.learning[3])
-            this.computedArray = this.currentUser.learning.filter(el => el.WT === undefined || el.WT === false )
-        },
-
         handleAnswer(id){
             if( id === this.words[this.currentWordTranslate].id){
                 console.log('yes')
@@ -98,15 +95,4 @@ Vue.component('training',{
             return Math.floor( Math.random() * ( to - from + 1 ) + from );
         }
     },
-    
-    updated(){
-        // this.computedArray = this.currentUser.learning.filter(el => el.WT === undefined || el.WT === false )
-        //  console.log('updated hook worked')      
-    }, 
-    mounted(){
-        console.log('mounted hook')
-        
-        this.computedArray = this.currentUser.learning.filter(el => el.WT === undefined || el.WT === false ) 
-        console.log('computedArray was touched')
-    }
 })
