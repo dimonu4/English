@@ -91,9 +91,8 @@ app.post('/api/userswords/learning/no', (req, res) =>{
       let currentWord = learning[currentUserId].repeating.find(el => el.id === matchedId.id)
       if(!currentWord){
         learning[currentUserId].repeating.push(req.body);
-        console.log('i am there')
       }
-      fs.writeFile('./server/db/users.js', JSON.stringify(learning), (err) => {
+      fs.writeFile('./server/db/users.json', JSON.stringify(learning), (err) => {
         if(err){
           res.send({result:0})
         } else {
