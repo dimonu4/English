@@ -1,15 +1,30 @@
 Vue.component('word-type-translate',{
+  data(){
+    return{
+      input:'',
+      text:'Please enter translation',
+    }
+  },
     props:{
-        wordsWTP:[],
+        wordWTP:{},
     },
     template:`
-    <div>
-    <div v-if='wordsWTP.length !== 0'>
-      <ul v-for='el in wordsWTP' :key='el.id' >
-      <li>{{el.id}}</li>
-      </ul>
-    </div>
-    <div v-else='words'>Array is empty</div>
-    </div>
+    <form action='#' v-on:submit.prevent='handleAnswer()'>
+    <p>{{text}}</p>
+    <a>{{wordWTP.translate}}</a>
+    <input v-model='input'></input> </br>
+    <button>answer</button>
+    </form>
     `,
+    methods:{
+      handleAnswer(){
+        if (this.input === this.wordWTP.english){
+          this.text = "great! :)"
+          this.$emit('answerWTP', this.wordWTP.id)
+          this.input = '';
+        } else {
+          this.text = 'oops :('
+        }
+      }
+    }
 })

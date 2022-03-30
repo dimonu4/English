@@ -2,8 +2,9 @@ Vue.component('training',{
     data(){
         return{
             wordTranslateOn:false,
+            wordTypeOn:false,
             currentWordTranslate:0,
-            
+            currentWordType:0,
         }
     },
     props:{
@@ -15,7 +16,7 @@ Vue.component('training',{
     template:`
     <div>
     <p>Training words there: </p>
-    <button v-on:click='wordTranslateOn=!wordTranslateOn'>word-translation</button>
+    <button v-on:click='wordTranslateOn=!wordTranslateOn'>word-translation: {{words.length}}</button>
     <word-translation 
      v-if='wordTranslateOn'
      v-bind:word='words[currentWordTranslate]'
@@ -23,8 +24,11 @@ Vue.component('training',{
      v-on:answerWord-translate='(id) => handleAnswer(id)'
      v-on:Cancel-from-word-translate='wordTranslateOn = false'
      ></word-translation>
+     <button v-on:click='wordTypeOn=!wordTypeOn'>Type translation: {{wordsWTP.length}}</button>
      <word-type-translate
-     v-bind:wordsWTP='wordsWTP'
+     v-if='wordTypeOn'
+     v-bind:wordWTP='wordsWTP[currentWordType]'
+     v-on:answerWTP='(id)=>handleAnswerWTP(id)'
      ></word-type-translate>
     </div>
     `,
@@ -32,6 +36,13 @@ Vue.component('training',{
      
     },
     methods:{
+        handleAnswerWTP(id){
+            if(this.currentWordType < this.wordsWTP.length - 1){
+            this.currentWordType++;
+            } else {
+                this.wordTypeOn =false;
+            }
+        },
         handleAnswer(id){
             if( id === this.words[this.currentWordTranslate].id){
                 console.log('yes')
