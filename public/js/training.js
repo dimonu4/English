@@ -37,11 +37,14 @@ Vue.component('training',{
     },
     methods:{
         handleAnswerWTP(id){
-            if(this.currentWordType < this.wordsWTP.length - 1){
-            this.currentWordType++;
-            } else {
-                this.wordTypeOn =false;
-            }
+            this.$parent.$parent.putJson('/api/userswords/learning/WTP', {id:id})
+            .then(data =>{
+                if(data.result === 1 && this.currentWordType < this.wordsWTP.length - 1){
+                    this.currentWordType++;
+                } else if(data.result === 0){
+                    this.wordTypeOn =false;
+                }
+            })
         },
         handleAnswer(id){
             if( id === this.words[this.currentWordTranslate].id){

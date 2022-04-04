@@ -19,9 +19,6 @@ Vue.component('user-words', {
        v-bind:currentUser='currentUser'
        v-bind:wordsWTP='wordsWTP'
        ></training>
-      <p v-for='word in wordsForLearning' :key='word.id'>
-      {{word.english}}
-      </p>
       <h2>Words for repeating: {{currentUser.repeating.length}}</h2>
       <p>
       </p>

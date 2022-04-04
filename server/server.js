@@ -102,3 +102,50 @@ app.post('/api/userswords/learning/no', (req, res) =>{
     }
   })
 })
+
+app.put('/api/userswords/learning/WTP', (req, res) =>{
+  fs.readFile('./server/db/users.json', 'utf-8', (err, data) =>{
+    if(err){
+      console.log(err);
+    } else {
+      let currentUserId = 0; // Later it will could be got from local storage
+      let matchedId = req.body.id;
+      let learning = JSON.parse(data);
+      let currentWord = learning[currentUserId].learning.find(el => el.id === matchedId);
+      currentWord['WTP'] = true;
+      let index = learning[currentUserId].learning.indexOf(currentWord);
+      learning[currentUserId].learning[index] = currentWord;
+      fs.writeFile('./server/db/users.json', JSON.stringify(learning), (err)=>{
+        if(err){
+          res.send({result:0})
+        } else {
+          res.send({result:1})
+        }
+      })
+    }
+  })
+})
+
+app.put('/api/translator/repeat', (req, res)=>{
+  fs.readFile('./server/db/users.json', 'utf-8', (err, data)=>{
+    if(err){
+      console.log(err)
+    } else {
+      let currentUserId = 0;
+      let matchedId = req.body.id;
+      let learning = JSON.parse(data);
+      let currentWord = learning[currentUserId].learning.find(el => el.id === matchedId);
+      currentWord['WTP'] = false;
+      currentWord['WT'] = false;
+      let index = learning[currentUserId].learning.indexOf(currentWord);
+      learning[currentUserId].learning[index] = currentWord;
+      fs.writeFile('./server/db/users.json', JSON.stringify(learning), (err)=>{
+        if(err){
+          res.send({result:0});
+        } else {
+          res.send({result:1})
+        }
+      })
+    }
+  })
+})

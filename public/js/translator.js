@@ -23,6 +23,14 @@ Vue.component('translator',{
             if(this.engreg.test(this.input)){
             const find = this.vocabulary.find(el => this.reg.test( el.english ) && el.english.length==this.input.length);
             if(find){
+                this.$parent.putJson('/api/translator/repeat', {id:find.id})
+                .then(data=>{
+                    if(data.result === 0){
+                        console.log('an erron')
+                    } else if(data.result === 1){
+                        console.log('the word has been added for learning')
+                    }
+                })
                 this.output=find.translate;
             }else{           
             this.output='Слово отсутствует в словаре'
