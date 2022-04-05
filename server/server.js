@@ -149,3 +149,27 @@ app.put('/api/translator/repeat', (req, res)=>{
     }
   })
 })
+
+app.put('/api/userswords/learning/WTP/no', (req, res)=>{
+  fs.readFile('./server/db/users.json', 'utf-8', (err, data)=>{
+    if(err){
+      console.log(err)
+    } else {
+      let currentUserId = 0;
+      let learning = JSON.parse(data);
+      let matchedId = req.body.id;
+      let currentWord = learning[currentUserId].learning.find(el => el.id === matchedId);
+      currentWord['WT'] = false;
+      currentWord['WTP'] = false;
+      let index = learning[currentUserId].learning.indexOf(currentWord);
+      learning[currentUserId].learning[index] = currentWord;
+      fs.writeFile('./server/db/users.json', JSON.stringify(learning), (err)=>{
+        if(err){
+          res.send({result:0});
+        } else {
+          res.send({result:1});
+        }
+      })
+    }
+  })
+})

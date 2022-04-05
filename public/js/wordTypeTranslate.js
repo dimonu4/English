@@ -9,12 +9,15 @@ Vue.component('word-type-translate',{
         wordWTP:{},
     },
     template:`
+    <div>
     <form action='#' v-on:submit.prevent='handleAnswer()'>
     <p>{{text}}</p>
     <a>{{wordWTP.translate}}</a>
     <input v-model='input'></input> </br>
     <button>answer</button>
     </form>
+    <button v-on:click='$parent.nextWord()'>Next</button>
+    </div>
     `,
     methods:{
       handleAnswer(){
@@ -23,7 +26,8 @@ Vue.component('word-type-translate',{
           this.$emit('answerWTP', this.wordWTP.id)
           this.input = '';
         } else {
-          this.text = 'oops :('
+          this.text = 'oops :(';
+          this.$emit('answerNegativeWTP', this.wordWTP.id);
         }
       }
     }

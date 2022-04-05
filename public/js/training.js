@@ -29,6 +29,7 @@ Vue.component('training',{
      v-if='wordTypeOn'
      v-bind:wordWTP='wordsWTP[currentWordType]'
      v-on:answerWTP='(id)=>handleAnswerWTP(id)'
+     v-on:answerNegativeWTP='(id)=>handleAnswerNegative(id)'
      ></word-type-translate>
     </div>
     `,
@@ -36,13 +37,32 @@ Vue.component('training',{
      
     },
     methods:{
+        nextWord(){
+            if(this.currentWordType < this.wordsWTP.length - 1 ){
+                this.currentWordType++;
+            } else{
+                this.wordTypeOn = false;
+                this.currentWordType = 0;
+            }
+        },
+
         handleAnswerWTP(id){
             this.$parent.$parent.putJson('/api/userswords/learning/WTP', {id:id})
             .then(data =>{
-                if(data.result === 1 && this.currentWordType < this.wordsWTP.length - 1){
-                    this.currentWordType++;
+                if(data.result === 1){
+                    this.nextWord();
                 } else if(data.result === 0){
-                    this.wordTypeOn =false;
+                    console.log('somethig wrong')
+                }
+            })
+        },
+        handleAnswerNegative(id){
+            this.$parent.$parent.putJson('/api/userswords/learning/WTP/no', {id:id})
+            .then(data =>{
+                if(data.result === 1){
+                    console.log('the word has been added to WT again');
+                } else if(data.result === 0){
+                    console.log('an Error')
                 }
             })
         },
