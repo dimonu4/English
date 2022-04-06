@@ -26,7 +26,7 @@ Vue.component("vocabulary-adding", {
       if(this.found ){ //checking if word exist in the vocabulary
         console.log('this word exists');
         let dateNow = new Date(this.found.date)
-      //  console.log(this.found)
+       console.log(`id: ${this.found.id} * ${this.found.english} * ${this.found.translate}`); 
         console.log('last edit: '+dateNow)
       } else {
 
@@ -58,7 +58,7 @@ Vue.component("vocabulary-adding", {
     // checking if the word in english is exsist
     checkWord(eng){
         return this.vocabulary.find(el => {
-          return this.regExp.test( el.english )
+          return this.regExp.test( el.english ) && el.english.length === this.inputEnglishWord.length
         })
     },
     // clearing input fields
