@@ -131,14 +131,21 @@ app.put('/api/translator/repeat', (req, res)=>{
     if(err){
       console.log(err)
     } else {
+      let date = Date.now();
       let currentUserId = 0;
       let matchedId = req.body.id;
       let learning = JSON.parse(data);
       let currentWord = learning[currentUserId].learning.find(el => el.id === matchedId);
-      currentWord['WTP'] = false;
+      if(!currentWord){
+        currentWord = {id:matchedId, date:date, WTP:false, WT:false};
+        learning[currentUserId].learning.push(currentWord)
+      } else{
       currentWord['WT'] = false;
+      currentWord['WTP'] = false;
+      currentWord.date = date;
       let index = learning[currentUserId].learning.indexOf(currentWord);
       learning[currentUserId].learning[index] = currentWord;
+      }
       fs.writeFile('./server/db/users.json', JSON.stringify(learning), (err)=>{
         if(err){
           res.send({result:0});
