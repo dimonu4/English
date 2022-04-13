@@ -19,10 +19,8 @@ Vue.component('user-words', {
        v-bind:currentUser='currentUser'
        v-bind:wordsWTP='wordsWTP'
        ></training>
-      <h2>Words for repeating: {{currentUser.repeating.length}}</h2>
-      <p>
-      </p>
-      <h2>Words has been learnt: {{currentUser.learnt.length}}</h2>
+      <h2>Words for repeating: </h2>
+      <h2>Words has been learnt: </h2>
       <p>
       </p>
       </div>
@@ -43,8 +41,7 @@ Vue.component('user-words', {
         .then( result => {
             this.currentUser = result[0];
             this.filteredResult = this.currentUser.learning.filter(el => el.WT !== true)
-            this.filteredWordType = this.currentUser.learning.filter(el => el.WTP !== true && el.WT ===true)
-            console.log(this.filteredWordType)
+            this.filteredWordType = this.currentUser.learning.filter(el => el.WTP !== true && el.WT ===true);
             // For word translate
             for(let i = 0; i < this.filteredResult.length; i++){
                 this.wordsForLearning[i] = this.vocabulary.find(el => el.id === this.filteredResult[i].id)
@@ -53,8 +50,7 @@ Vue.component('user-words', {
             for(let i = 0; i < this.filteredWordType.length; i++){
                 this.wordsWTP[i] = this.vocabulary.find(el => el.id === this.filteredWordType[i].id)
             }
-            console.log(this.wordsWTP)
-            this.quantityLearnWords = this.wordsForLearning.length;
+            this.quantityLearnWords = this.wordsForLearning.length + this.wordsWTP.length;
         })
     }
 })

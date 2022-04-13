@@ -16,41 +16,48 @@ Vue.component('training',{
     template:`
     <div>
     <p>Training words there: </p>
-    <button v-on:click='wordTranslateOn=!wordTranslateOn'>word-translation: {{words.length}}</button>
+    <button v-on:click='wordTranslateOn=!wordTranslateOn'>word-translation: {{wordsForWT}}</button>
     <word-translation 
      v-if='wordTranslateOn'
-     v-bind:word='words[currentWordTranslate]'
-     v-bind:wordsTranslate='getWordsTranslate(words[currentWordTranslate].id, words[currentWordTranslate])'
+     v-bind:word='words[0]'
+     v-bind:wordsTranslate='getWordsTranslate(words[0]?.id, words[0])'
      v-on:answerWord-translate='(id) => handleAnswer(id)'
      v-on:Cancel-from-word-translate='wordTranslateOn = false'
+     v-on:NextWT='handleNextWT()'
      ></word-translation>
      <button v-on:click='wordTypeOn=!wordTypeOn'>Type translation: {{wordsWTP.length}}</button>
      <word-type-translate
      v-if='wordTypeOn'
-     v-bind:wordWTP='wordsWTP[currentWordType]'
+     v-bind:wordWTP='wordsWTP[0]'
      v-on:answerWTP='(id)=>handleAnswerWTP(id)'
      v-on:answerNegativeWTP='(id)=>handleAnswerNegative(id)'
+     v-on:NextWTP='handleNextWTP()'
      ></word-type-translate>
     </div>
     `,
     computed:{
-     
+     wordsForWT(){
+         return this.words.length;
+     },
+     wordsForWTP(){
+         return this.wordsWTP.length;
+     }
     },
     methods:{
-        nextWord(){
-            if(this.currentWordType < this.wordsWTP.length - 1 ){
-                this.currentWordType++;
-            } else{
-                this.wordTypeOn = false;
-                this.currentWordType = 0;
-            }
+        handleNextWT(){
+            let firstWord = this.words.shift();
+            this.words.push(firstWord)
+        },
+        handleNextWTP(){
+            let firstWord = this.wordsWTP.shift();
+            this.wordsWTP.push(firstWord);
         },
 
         handleAnswerWTP(id){
             this.$parent.$parent.putJson('/api/userswords/learning/WTP', {id:id})
             .then(data =>{
                 if(data.result === 1){
-                    this.nextWord();
+                    this.wordsWTP.shift()
                 } else if(data.result === 0){
                     console.log('somethig wrong')
                 }
@@ -61,6 +68,7 @@ Vue.component('training',{
             .then(data =>{
                 if(data.result === 1){
                     console.log('the word has been added to WT again');
+                    this.wordsWTP.shift()
                 } else if(data.result === 0){
                     console.log('an Error')
                 }
@@ -72,7 +80,8 @@ Vue.component('training',{
                 this.$parent.$parent.putJson('/api/userswords/learning/yes', {id:id})
                 .then(data => {     
                     if(data.result === 1){
-                        this.currentWordTranslate++
+                        // this.nextWordT();
+                        this.words.shift()
                     } else if (data.result === 0){
                         console.log('something wrong')
                     }
