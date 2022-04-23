@@ -5,6 +5,7 @@ Vue.component('training',{
             wordTypeOn:false,
             currentWordTranslate:0,
             currentWordType:0,
+            isRight: false,
         }
     },
     props:{
@@ -82,6 +83,7 @@ Vue.component('training',{
                     if(data.result === 1){
                         // this.nextWordT();
                         this.words.shift()
+                        this.isRight = true;
                     } else if (data.result === 0){
                         console.log('something wrong')
                     }
