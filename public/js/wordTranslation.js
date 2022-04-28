@@ -3,6 +3,7 @@ Vue.component('word-translation',{
         word:{},
         wordsTranslate:[],
         isRight:Boolean,
+        isFalse:Boolean,
     },
     template:`
         <div>
@@ -10,7 +11,7 @@ Vue.component('word-translation',{
             <p>Please translate: {{word.english}}</p>
             <ul v-for='translate in wordsTranslate' :key='translate.id'>
             <li 
-                class='rightAnswer'
+                v-bind:class='{ rightAnswer: isRight, wrongAnswer: isFalse }'
                 v-on:click='handleAnswer(translate.id)'
                 >{{translate.translate}}</li>
             </ul>

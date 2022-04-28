@@ -6,6 +6,7 @@ Vue.component('training',{
             currentWordTranslate:0,
             currentWordType:0,
             isRight: false,
+            isFalse: false,
         }
     },
     props:{
@@ -22,6 +23,8 @@ Vue.component('training',{
      v-if='wordTranslateOn'
      v-bind:word='words[0]'
      v-bind:wordsTranslate='getWordsTranslate(words[0]?.id, words[0])'
+     v-bind:isRight='isRight'
+     v-bind:isFalse='isFalse'
      v-on:answerWord-translate='(id) => handleAnswer(id)'
      v-on:Cancel-from-word-translate='wordTranslateOn = false'
      v-on:NextWT='handleNextWT()'
@@ -78,10 +81,12 @@ Vue.component('training',{
         handleAnswer(id){
             if( id === this.words[this.currentWordTranslate].id){
                 console.log('yes')
+                this.isRight = true
+                setTimeout(()=>this.isRight = false, 250)
                 this.$parent.$parent.putJson('/api/userswords/learning/yes', {id:id})
                 .then(data => {     
                     if(data.result === 1){
-                        // this.nextWordT();
+                        
                         this.words.shift()
                         this.isRight = true;
                     } else if (data.result === 0){
@@ -91,6 +96,8 @@ Vue.component('training',{
                 
             } else {
                 console.log('no')
+                this.isFalse = true
+                setTimeout(()=>this.isFalse = false, 250)
                 this.$parent.$parent.postJson('/api/userswords/learning/no', {id:id})
                 .then(data => {
                     if(data.result === 1){
