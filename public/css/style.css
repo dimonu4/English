@@ -1,3 +1,7 @@
+*{
+background-color: lightgrey;
+}
+
 .rightAnswer {
     width:300px; 
     background-color: lightseagreen;
