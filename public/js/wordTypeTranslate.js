@@ -28,7 +28,7 @@ Vue.component('word-type-translate',{
         this.input = '';
       },
       handleAnswer(){
-        if (this.input === this.wordWTP.english){
+        if (this.input.toLowerCase() === this.wordWTP.english){
           this.text = "great! :)"
           this.$emit('answerWTP', this.wordWTP.id)
           this.input = '';
