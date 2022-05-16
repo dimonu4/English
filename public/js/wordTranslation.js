@@ -8,7 +8,7 @@ Vue.component('word-translation',{
     template:`
         <div>
         <div v-if='word'>
-            <p>Please translate: {{word.english}}</p>
+            <p>Please translate: <b>{{word.english}}</b></p>
             <ul v-for='translate in wordsTranslate' :key='translate.id'>
             <li 
                 v-bind:class='{ rightAnswer: isRight, wrongAnswer: isFalse }'
