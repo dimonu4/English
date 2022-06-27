@@ -12,7 +12,7 @@ Vue.component("vocabulary-adding", {
     };
   },
   template: `
-    <form action="#" v-on:submit.prevent="addNewWord(inputEnglishWord,inputTranslateWord)">
+    <form action="#" v-on:submit.prevent="addNewWord(inputEnglishWord.toLowerCase(),inputTranslateWord.toLowerCase())">
     <p>Words in vocabulary: {{quantity}}</p>
     <h1>Add new word in English</h1>
     <input type="text" v-model="inputEnglishWord" placeholder="In English">
