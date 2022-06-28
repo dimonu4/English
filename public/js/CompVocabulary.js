@@ -28,6 +28,7 @@ Vue.component("vocabulary-adding", {
         let dateNow = new Date(this.found.date)
        console.log(`id: ${this.found.id} * ${this.found.english} * ${this.found.translate}`); 
         console.log('last edit: '+dateNow)
+	      alert("word exists, last edit: "+dateNow)
       } else {
 
       // add new world in vocabulary.json
