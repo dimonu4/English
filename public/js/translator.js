@@ -21,7 +21,7 @@ Vue.component('translator',{
         findTranslate(){
             this.reg=new RegExp(this.input.trim(),'i');
             if(this.engreg.test(this.input)){
-            const find = this.vocabulary.find(el => this.reg.test( el.english ) && el.english.length==this.input.trim().length);
+            const find = this.vocabulary.find(el => this.reg.test( el.english.trim() ) && el.english.trim().length==this.input.trim().length);
             if(find){
                 this.$parent.putJson('/api/translator/repeat', {id:find.id})
                 .then(data=>{

@@ -21,6 +21,9 @@ Vue.component("vocabulary-adding", {
     </form>`,
   methods: {
     addNewWord: function (eng, trans) {
+	    if(trans==""){
+		    alert ("you have to fill both fields")
+		    return}
       this.regExp = new RegExp(eng,"i");
       this.found = this.checkWord(eng);
       if(this.found ){ //checking if word exist in the vocabulary
@@ -59,7 +62,7 @@ Vue.component("vocabulary-adding", {
     // checking if the word in english is exsist
     checkWord(eng){
         return this.vocabulary.find(el => {
-          return this.regExp.test( el.english ) && el.english.length === this.inputEnglishWord.length
+          return this.regExp.test( el.english.trim() ) && el.english.trim().length === this.inputEnglishWord.trim().length
         })
     },
     // clearing input fields
