@@ -41,6 +41,7 @@ Vue.component('user-words', {
         .then( result => {
             this.currentUser = result[0];
             this.filteredResult = this.currentUser.learning.filter(el => el.WT !== true)
+	//	alert(this.filteredResult[0].id)
             this.filteredWordType = this.currentUser.learning.filter(el => el.WTP !== true && el.WT ===true);
             // For word translate
             for(let i = 0; i < this.filteredResult.length; i++){
