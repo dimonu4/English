@@ -21,7 +21,7 @@ Vue.component("vocabulary-adding", {
     </form>`,
   methods: {
     addNewWord: function (eng, trans) {
-	    if(trans==""){
+	    if(trans=="" || eng==""){
 		    alert ("you have to fill both fields")
 		    return}
       this.regExp = new RegExp(eng,"i");
