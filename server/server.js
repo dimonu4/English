@@ -5,7 +5,7 @@ const app = express();
 app.use("/", express.static("./public"));
 app.use(express.json());
 
-app.listen(3000, () => {
+app.listen(3000, '127.0.0.1', () => {
   console.log("server is running on port 3000");
 });
 
